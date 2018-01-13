@@ -16,6 +16,8 @@ import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
 import java.io.FileNotFoundException;
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView the_word = (TextView) findViewById(R.id.word);
                 String word_disp = the_word.getText().toString();
                 String correct_defn = dictionary.get(word_disp);
-
+                ImageView img = (ImageView) findViewById(R.id.images);
                 TextView point_count = (TextView) findViewById(R.id.point);
                 point_count.setText("Points: "+ points);
                 if (definition.contentEquals(correct_defn)) {
@@ -128,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                         hs.setText("HighScore: "+highscore);
 
                     }
+                    Picasso.with(MainActivity.this).load("https://static1.squarespace.com/static/51239e9ae4b0dce195cba126/t/59e0c23bf7e0ab92564ac3b9/1507902031981/thumbs-up.png").into(img);
                     ChooseWords();
                     point_count.setText("Points: " + points);
 
@@ -135,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Incorrect", "OOPS!!");
                     points--;
                     Toast.makeText(MainActivity.this, "The correct defn is - "+correct_defn, Toast.LENGTH_LONG).show();
+                    Picasso.with(MainActivity.this).load("http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-11/256/thumbs-down.png").into(img);
                     ChooseWords();
                     point_count.setText("Points: " + points);
 

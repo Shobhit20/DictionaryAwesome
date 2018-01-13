@@ -5,40 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.shobhit.dictionaryawesome.Startpage">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center|top"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="41dp">
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:gravity="center"
+            android:layout_margin="70dp"
             android:layout_marginTop="15dp"
+            android:gravity="center"
             android:text="Dictionary app"
-            android:textStyle="bold"
             android:textSize="30dp"
-            android:layout_margin="80dp"/>
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <Button
                 android:layout_width="match_parent"
-                android:onClick="addingword"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="40dp"
-                android:text="Add word"/>
+                android:layout_marginBottom="20dp"
+                android:onClick="addingword"
+                android:text="Add word" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:onClick="checkvocab"
-                android:text="Test your vocab"/>
+                android:text="Test your vocab" />
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="147dp"
+            android:layout_marginTop="50sp"
+            android:id="@+id/image"
+            android:layout_height="102dp" />
 
     </LinearLayout>
 
