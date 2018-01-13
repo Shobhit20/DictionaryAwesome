@@ -16,6 +16,8 @@ import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -80,9 +82,11 @@ public class MainActivity extends AppCompatActivity {
         Collections.shuffle(defns);
         TextView text = (TextView) findViewById(R.id.word);
         text.setText(theword);
+        YoYo.with(Techniques.BounceIn).playOn(text);
         ListView list = (ListView) findViewById(R.id.defn);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, defns);
         list.setAdapter(adapter);
+        YoYo.with(Techniques.BounceIn).playOn(list);
 
     }
 

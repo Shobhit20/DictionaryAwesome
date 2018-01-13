@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView"
             android:layout_centerHorizontal="true"
+            android:textSize="30sp"
             android:layout_marginTop="23dp"
             android:text="The Word" />
         <LinearLayout
@@ -49,6 +50,7 @@
             android:layout_alignStart="@+id/word"
             android:layout_below="@+id/linearLayout"
             android:layout_marginTop="50dp"
+            android:layout_marginLeft="40sp"
             android:text="" />
         <TextView
             android:id="@+id/highsc"
@@ -56,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/word"
             android:layout_alignStart="@+id/word"
+            android:layout_marginLeft="40sp"
             android:layout_below="@+id/linearLayout"
             android:layout_marginTop="70dp"
             android:text="" />

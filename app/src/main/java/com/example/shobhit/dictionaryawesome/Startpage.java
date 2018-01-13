@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
 
 public class Startpage extends AppCompatActivity {
@@ -18,7 +20,9 @@ public class Startpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startpage);
         ImageView img = (ImageView) findViewById(R.id.image);
+
         Picasso.with(this).load("https://lh3.googleusercontent.com/klzb6YkXqOtUhJ0ToAu9H1-FW5p-ORdeiSedoezeiyGPe_FYHUtC-EMs1AhqSyJG1OU=w170").into(img);
+        YoYo.with(Techniques.Tada).duration(3000).playOn(img);
     }
 
     public void checkvocab(View view) {
