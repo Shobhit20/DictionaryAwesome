@@ -2,6 +2,7 @@ package com.example.shobhit.dictionaryawesome;
 
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,9 +39,12 @@ public class MainActivity extends AppCompatActivity {
     private List<String> words;
     private List<String> defns;
     private int points;
+    private TextToSpeech tts;
+    private boolean ttsisready = false;
     private int highscore;
+    private ImageView img;
     private int check_ques = 0;
-    MediaPlayer mp;
+    //MediaPlayer mp;
 
     private void ReadFileData() {
         Scanner Scan = new Scanner(getResources().openRawResource(R.raw.testfile));
@@ -69,6 +73,15 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.e("Shobhit", "Maheshwari");
     }
+    private void speak(String correct_defn){
+
+        tts.speak(correct_defn, TextToSpeech.QUEUE_ADD,null );
+        boolean speakingEnd = tts.isSpeaking();
+        do{
+            speakingEnd = tts.isSpeaking();
+        } while (speakingEnd);
+
+    }
     private void ChooseWords(){
         Random randy = new Random();
         int random = randy.nextInt(words.size());
@@ -82,17 +95,30 @@ public class MainActivity extends AppCompatActivity {
         Collections.shuffle(defns);
         TextView text = (TextView) findViewById(R.id.word);
         text.setText(theword);
+
+
+
+
         YoYo.with(Techniques.BounceIn).playOn(text);
         ListView list = (ListView) findViewById(R.id.defn);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, defns);
         list.setAdapter(adapter);
         YoYo.with(Techniques.BounceIn).playOn(list);
+        speak(theword);
+
 
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                ttsisready = true;
+            }
+        });
         setContentView(R.layout.activity_main);
         dictionary = new HashMap<>();
         words = new ArrayList<>();
@@ -102,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
         hs.setText("HighScore: "+ highscore);
         ReadFileData();
         ChooseWords();
-        mp = MediaPlayer.create(this, R.raw.script);
-        mp.start();
+        //mp = MediaPlayer.create(this, R.raw.script);
+        //mp.start();
         points=0;
 
 
@@ -117,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView the_word = (TextView) findViewById(R.id.word);
                 String word_disp = the_word.getText().toString();
                 String correct_defn = dictionary.get(word_disp);
-                ImageView img = (ImageView) findViewById(R.id.images);
+                img = (ImageView) findViewById(R.id.images);
                 TextView point_count = (TextView) findViewById(R.id.point);
                 point_count.setText("Points: "+ points);
                 if (definition.contentEquals(correct_defn)) {
@@ -134,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                         hs.setText("HighScore: "+highscore);
 
                     }
+
                     Picasso.with(MainActivity.this).load("https://static1.squarespace.com/static/51239e9ae4b0dce195cba126/t/59e0c23bf7e0ab92564ac3b9/1507902031981/thumbs-up.png").into(img);
                     ChooseWords();
                     point_count.setText("Points: " + points);
@@ -141,10 +168,14 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Log.d("Incorrect", "OOPS!!");
                     points--;
-                    Toast.makeText(MainActivity.this, "The correct defn is - "+correct_defn, Toast.LENGTH_LONG).show();
                     Picasso.with(MainActivity.this).load("http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-11/256/thumbs-down.png").into(img);
+
+                    Toast.makeText(MainActivity.this, "The correct defn is - "+correct_defn, Toast.LENGTH_LONG).show();
+                    speak(correct_defn);
+
                     ChooseWords();
                     point_count.setText("Points: " + points);
+
 
                 }
 
@@ -165,15 +196,5 @@ public class MainActivity extends AppCompatActivity {
         points = savedInstanceState.getInt("points", 0);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mp.pause();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mp.start();
-    }
 }

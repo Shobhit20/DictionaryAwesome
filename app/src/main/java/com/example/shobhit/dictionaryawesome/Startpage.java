@@ -1,6 +1,7 @@
 package com.example.shobhit.dictionaryawesome;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 public class Startpage extends AppCompatActivity {
     private static final int REQ_CODE= 1234;
+    MediaPlayer mp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,8 @@ public class Startpage extends AppCompatActivity {
 
         Picasso.with(this).load("https://lh3.googleusercontent.com/klzb6YkXqOtUhJ0ToAu9H1-FW5p-ORdeiSedoezeiyGPe_FYHUtC-EMs1AhqSyJG1OU=w170").into(img);
         YoYo.with(Techniques.Tada).duration(3000).playOn(img);
+        mp = MediaPlayer.create(this, R.raw.script);
+        mp.start();
     }
 
     public void checkvocab(View view) {
@@ -50,5 +54,16 @@ public class Startpage extends AppCompatActivity {
             Log.e(word, defn);
             Toast.makeText(Startpage.this, "New Word Added", Toast.LENGTH_LONG ).show();
         }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mp.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mp.start();
     }
 }
