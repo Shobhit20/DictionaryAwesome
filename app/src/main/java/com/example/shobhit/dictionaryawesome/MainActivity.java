@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 point_count.setText("Points: "+ points);
                 if (definition.contentEquals(correct_defn)) {
                     Log.d("Correct", "Good work");
+
                     points++;
                     if (highscore < points){
                         highscore = points;
@@ -131,8 +132,9 @@ public class MainActivity extends AppCompatActivity {
                     point_count.setText("Points: " + points);
 
                 } else {
-                    Log.d("Incorrect", "Fuck off");
+                    Log.d("Incorrect", "OOPS!!");
                     points--;
+                    Toast.makeText(MainActivity.this, "The correct defn is - "+correct_defn, Toast.LENGTH_LONG).show();
                     ChooseWords();
                     point_count.setText("Points: " + points);
 
