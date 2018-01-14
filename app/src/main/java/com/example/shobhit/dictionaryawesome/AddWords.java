@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,7 @@ public class AddWords extends AppCompatActivity {
         goback.putExtra("Defn", new_defn);
         setResult(RESULT_OK, goback);
         finish();
+        
     }
 
     public void speechtotext(View view){
@@ -61,19 +63,35 @@ public class AddWords extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void takepic(View view) {
+        if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            camera_launch();
+        }
+        else{
+            String[] permsissionRequest = {Manifest.permission.CAMERA};
+            requestPermissions(permsissionRequest, REQUEST_CODE_ASK_PERMISSIONS);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_ASK_PERMISSIONS){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                camera_launch();
+            }
+            else{
+                Toast.makeText(this, "Unable to open Camera",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void camera_launch(){
         Intent picintent = new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
         startActivityForResult(picintent, REQ_CODE_CAMERA);
     }
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
-        }
-    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -85,27 +103,12 @@ public class AddWords extends AppCompatActivity {
         }
         if(requestCode == REQ_CODE_CAMERA){
 
-            if(askpermission()){
+
                 Bitmap bmp = (Bitmap) data.getExtras().get("data");
                 ImageView img = (ImageView) findViewById(R.id.disp_img);
                 img.setImageBitmap(bmp);
-            }
 
         }
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean askpermission() {
-        int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.WRITE_CONTACTS);
-        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[] {Manifest.permission.WRITE_CONTACTS},
-                    REQUEST_CODE_ASK_PERMISSIONS);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
 
 }
