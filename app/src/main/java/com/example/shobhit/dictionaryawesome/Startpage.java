@@ -1,6 +1,7 @@
 package com.example.shobhit.dictionaryawesome;
 
 import android.content.Intent;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +26,7 @@ public class Startpage extends AppCompatActivity {
         setContentView(R.layout.activity_startpage);
         img = (ImageButton) findViewById(R.id.image);
 
-        Picasso.with(this).load("https://lh3.googleusercontent.com/klzb6YkXqOtUhJ0ToAu9H1-FW5p-ORdeiSedoezeiyGPe_FYHUtC-EMs1AhqSyJG1OU=w170").into(img);
+        Picasso.with(this).load("https://lh3.googleusercontent.com/klzb6YkXqOtUhJ0ToAu9H1-FW5p-ORdeiSedoezeiyGPe_FYHUtC-EMs1AhqSyJG1OU=w470").resize(500,500).into(img);
         YoYo.with(Techniques.Tada).duration(3000).playOn(img);
         mp = MediaPlayer.create(this, R.raw.sia_cheapthrills);
         mp.start();
