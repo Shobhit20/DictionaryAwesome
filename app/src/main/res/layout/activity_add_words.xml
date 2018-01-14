@@ -41,6 +41,22 @@
             android:onClick="addword"
             android:text="Submit"
             android:layout_marginTop="30dp"/>
+        <Button
+            android:id="@+id/speech"
+            android:text="Voice ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="speechtotext"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/scan_word"
+            android:text="Camera"
+            android:layout_height="wrap_content"
+            android:onClick="takepic"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:id="@+id/disp_img"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

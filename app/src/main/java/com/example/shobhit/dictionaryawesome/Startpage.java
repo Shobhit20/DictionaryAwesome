@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,15 +18,16 @@ import com.squareup.picasso.Picasso;
 public class Startpage extends AppCompatActivity {
     private static final int REQ_CODE= 1234;
     MediaPlayer mp;
+    private ImageButton img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startpage);
-        ImageView img = (ImageView) findViewById(R.id.image);
+        img = (ImageButton) findViewById(R.id.image);
 
         Picasso.with(this).load("https://lh3.googleusercontent.com/klzb6YkXqOtUhJ0ToAu9H1-FW5p-ORdeiSedoezeiyGPe_FYHUtC-EMs1AhqSyJG1OU=w170").into(img);
         YoYo.with(Techniques.Tada).duration(3000).playOn(img);
-        mp = MediaPlayer.create(this, R.raw.script);
+        mp = MediaPlayer.create(this, R.raw.sia_cheapthrills);
         mp.start();
     }
 
@@ -65,5 +67,9 @@ public class Startpage extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mp.start();
+    }
+
+    public void anime(View view) {
+        YoYo.with(Techniques.Tada).duration(3000).playOn(img);
     }
 }

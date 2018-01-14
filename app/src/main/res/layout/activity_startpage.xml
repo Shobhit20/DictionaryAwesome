@@ -47,10 +47,12 @@
 
         </LinearLayout>
 
-        <ImageView
+        <ImageButton
             android:layout_width="147dp"
             android:layout_marginTop="50sp"
             android:id="@+id/image"
+            android:onClick="anime"
+            android:background="@null"
             android:layout_height="102dp" />
 
     </LinearLayout>
