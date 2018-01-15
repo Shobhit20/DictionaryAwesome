@@ -14,11 +14,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.FileNotFoundException;
@@ -68,10 +72,33 @@ public class AddWords extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void takepic(View view) {
-        Intent camera_page = new Intent(this, CameraActivity.class);
-        startActivityForResult(camera_page, REQ_CODE_CAMERA);
+        if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            camera_launch();
+        }
+        else{
+            String[] permsissionRequest = {Manifest.permission.CAMERA};
+            requestPermissions(permsissionRequest, REQUEST_CODE_ASK_PERMISSIONS);
+        }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_ASK_PERMISSIONS){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                camera_launch();
+            }
+            else{
+                Toast.makeText(this, "Unable to open Camera",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void camera_launch(){
+        Intent picintent = new Intent((MediaStore.ACTION_IMAGE_CAPTURE));
+        startActivityForResult(picintent, REQ_CODE_CAMERA);
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -83,9 +110,24 @@ public class AddWords extends AppCompatActivity {
             Log.d("The word is ", text);
         }
         if(requestCode == REQ_CODE_CAMERA){
-                Bitmap bmp = (Bitmap) data.getExtras().get("data");
-                ImageView img = (ImageView) findViewById(R.id.disp_img);
-                img.setImageBitmap(bmp);
+
+
+            Bitmap bmp = (Bitmap) data.getExtras().get("data");
+            TextRecognizer text = new TextRecognizer.Builder(getApplicationContext()).build();
+            Frame outputFrame = new Frame.Builder().setBitmap(bmp).build();
+            final SparseArray<TextBlock> items = text.detect(outputFrame);
+            final StringBuilder strings = new StringBuilder();
+            if(items.size() != 0){
+                for(int i =0 ; i<items.size(); i++) {
+                    TextBlock item = items.valueAt(i);
+                    strings.append(item.getValue());
+                    Log.e("Value", item.getValue());
+                    strings.append("\n");
+                }
+            }
+            TextView tv = (TextView) findViewById(R.id.detectedtext);
+            tv.setText(strings.toString());
+
         }
     }
 

@@ -58,9 +58,9 @@
             android:layout_height="wrap_content"
             android:text="RUN"
             android:onClick="pythoncall"/>
-        <ImageView
+        <TextView
             android:layout_width="match_parent"
-            android:id="@+id/disp_img"
+            android:id="@+id/detectedtext"
             android:layout_height="match_parent" />
 
     </LinearLayout>

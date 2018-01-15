@@ -55,7 +55,7 @@ public class CameraActivity extends AppCompatActivity {
         cameraView = (SurfaceView) findViewById(R.id.surfaceview);
         textView = (TextView) findViewById(R.id.textview);
         TextRecognizer text = new TextRecognizer.Builder(getApplicationContext()).build();
-        
+
         Log.e("IN","ON CREATE");
         final StringBuilder strings = new StringBuilder();
         if (!text.isOperational()){
