@@ -132,7 +132,6 @@ public class AddWords extends AppCompatActivity {
     }
 
     public void pythoncall(View view) {
-
-
+        
     }
 }
